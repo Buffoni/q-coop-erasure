@@ -17,7 +17,7 @@ solver = 'Advantage_system6.1'
 
 qpu_sampler = DWaveSampler(solver=solver, token=mytoken)
 J = {link: 0.0 for link in qpu_sampler.edgelist}
-h = {node: 1. for node in qpu_sampler.nodelist}
+h = {node: -1. for node in qpu_sampler.nodelist}
 bqm = dimod.BinaryQuadraticModel.from_ising(h, J)
 
 hmax = 0.6

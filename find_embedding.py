@@ -7,7 +7,7 @@ from minorminer import find_embedding
 
 mytoken = 'CINE-7a7dd30e6b6196bae3c9c198ee323b7e2ea3f2ed'
 
-N = 12
+N = 16
 solver = 'Advantage_system6.1'
 
 h = dict(enumerate([0.0 for i in range(N**2)]))
