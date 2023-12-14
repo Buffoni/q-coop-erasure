@@ -7,25 +7,25 @@ import time
 import matplotlib.pyplot as plt
 import dimod
 from dimod.reference import samplers
-from dwave.system.samplers import DWaveSampler
-from dwave.system.composites import EmbeddingComposite, FixedEmbeddingComposite
+from dwave.system import DWaveSampler
+from dwave.system import EmbeddingComposite, FixedEmbeddingComposite
 from minorminer import find_embedding
 
-
-mytoken = 'DEV-cd1ac920efa5f032dd82604d3bd6544669d486dc'
+mytoken = 'DEV-2942a9351f40088a2e32f4f1732b5dd8dcffea46' # michele
+# mytoken = 'DEV-cd1ac920efa5f032dd82604d3bd6544669d486dc' # lorenzo
 solver = 'Advantage_system6.3'
 
 qpu_sampler = DWaveSampler(solver=solver, token=mytoken)
 nval = len(qpu_sampler.edgelist)
 
-jvals = np.arange(0.01, 0.3, 0.005)
+jvals = np.arange(0, 0.1, 0.005)
 
-num_samples = 100  # to be multiplied by num_reads
+num_samples = 10  # to be multiplied by num_reads
 anneal_lenght = 100  # microseconds
 
 for jval in jvals:
     explog = {
-        'name': './linear_ramp_pegasus',
+        'name': 'linear_ramp_pegasus',
         'num_samples': num_samples * 10,
         'anneal_lenght': anneal_lenght,
         'N': nval,
@@ -41,7 +41,7 @@ for jval in jvals:
 
     fin_states = []
     for i in range(num_samples):
-        samples = qpu_sampler.sample(bqm, anneal_lenght=anneal_lenght,
+        samples = qpu_sampler.sample(bqm, annealing_time=anneal_lenght,
                                     num_reads=10, auto_scale=False)
 
         for s in samples.samples():
@@ -49,5 +49,5 @@ for jval in jvals:
 
     explog['final_states'].append(fin_states)
 
-with open(explog['name']+'.pkl', 'wb') as f:
-    pickle.dump(explog, f)
+    with open(explog['name']+ str(int(jval * 100)) + '.pkl', 'wb') as f:
+        pickle.dump(explog, f)
