@@ -1,15 +1,7 @@
 import numpy as np
-import networkx as nx
-from numpy.random import rand
-import matplotlib.pyplot as plt
 import pickle
-import time
-import matplotlib.pyplot as plt
 import dimod
-from dimod.reference import samplers
 from dwave.system import DWaveSampler
-from dwave.system import EmbeddingComposite, FixedEmbeddingComposite
-from minorminer import find_embedding
 
 mytoken = 'DEV-2942a9351f40088a2e32f4f1732b5dd8dcffea46' # michele
 # mytoken = 'DEV-cd1ac920efa5f032dd82604d3bd6544669d486dc' # lorenzo
