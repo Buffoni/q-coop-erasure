@@ -6,7 +6,7 @@ from dwave.system import DWaveSampler
 
 mytoken = 'DEV-2942a9351f40088a2e32f4f1732b5dd8dcffea46' # michele
 #mytoken = 'CINE-7a7dd30e6b6196bae3c9c198ee323b7e2ea3f2ed'
-solver = 'Advantage_system6.2'
+solver = 'Advantage_system6.3'
 
 qpu_sampler = DWaveSampler(solver=solver, token=mytoken)
 nval = len(qpu_sampler.edgelist)
