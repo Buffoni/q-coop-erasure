@@ -23,15 +23,15 @@ total_schedules = []
 
 #h_schedules.append([[0, 0], [10, 0], [20, 1], [anneal_lenght, 0], [anneal_lenght + 0.5, 0]])
 #total_schedules.append([[0, 1], [10, 1 - hmax], [20, 1 - hmax], [anneal_lenght, 1], [anneal_lenght + 0.5, 1]])
-h_schedules.append([[0, 0], [5, 0], [15, 1], [20, 1], [20.1, 0]])
-total_schedules.append([[0, 1], [5, 1 - hmax], [15, 1 - hmax], [20, 1], [20.1, 1]])
+h_schedules.append([[0, 0], [10, 0], [20, 1], [25, 1], [25.1, 0]])
+total_schedules.append([[0, 1], [10, 1 - hmax], [20, 1 - hmax], [25, 1], [25.1, 1]])
 
 
 
 for n in [nval]:#range(3,19):
 
     explog = {
-        'name': 'new_pegasus_flat',
+        'name': 'new_pegasus_scaleh',
         'num_samples': num_samples * 10,
         'anneal_lenght': anneal_lenght,
         'N': n ** 2,
