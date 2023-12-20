@@ -1,24 +1,18 @@
 import numpy as np
-import networkx as nx
-from numpy.random import rand
-import matplotlib.pyplot as plt
 import pickle
-import time
-import matplotlib.pyplot as plt
 import dimod
-from dimod.reference import samplers
-from dwave.system.samplers import DWaveSampler
-from dwave.system.composites import EmbeddingComposite, FixedEmbeddingComposite
-from minorminer import find_embedding
+from dwave.system import DWaveSampler
 
 
-mytoken = 'CINE-7a7dd30e6b6196bae3c9c198ee323b7e2ea3f2ed'
+mytoken = 'DEV-2942a9351f40088a2e32f4f1732b5dd8dcffea46' # michele
+#mytoken = 'CINE-7a7dd30e6b6196bae3c9c198ee323b7e2ea3f2ed'
 solver = 'Advantage_system6.2'
 
 qpu_sampler = DWaveSampler(solver=solver, token=mytoken)
 nval = len(qpu_sampler.edgelist)
 
-hvals = np.linspace(0,2,20)
+#hvals = np.linspace(0,2,20)
+hvals = [2.]
 hmax = 0.6
 
 num_samples = 200  # to be multiplied by num_reads
@@ -27,13 +21,17 @@ anneal_lenght = 30  # microseconds
 h_schedules = []
 total_schedules = []
 
-h_schedules.append([[0, 0], [10, 0], [20, 1], [anneal_lenght, 0], [anneal_lenght + 0.5, 0]])
-total_schedules.append([[0, 1], [10, 1 - hmax], [20, 1 - hmax], [anneal_lenght, 1], [anneal_lenght + 0.5, 1]])
+#h_schedules.append([[0, 0], [10, 0], [20, 1], [anneal_lenght, 0], [anneal_lenght + 0.5, 0]])
+#total_schedules.append([[0, 1], [10, 1 - hmax], [20, 1 - hmax], [anneal_lenght, 1], [anneal_lenght + 0.5, 1]])
+h_schedules.append([[0, 0], [10, 0], [20, 1], [20.1, 0]])
+total_schedules.append([[0, 1], [10, 1 - hmax], [20, 1 - hmax], [20.1, 1]])
+
+
 
 for n in [nval]:#range(3,19):
 
     explog = {
-        'name': './individual/quantum_pegasus_scaleh',
+        'name': 'new_pegasus_scaleh',
         'num_samples': num_samples * 10,
         'anneal_lenght': anneal_lenght,
         'N': n ** 2,
@@ -46,7 +44,7 @@ for n in [nval]:#range(3,19):
     }
 
     for k in hvals:
-        J = {link: -0.12 for link in qpu_sampler.edgelist}
+        J = {link: -0.08 for link in qpu_sampler.edgelist}
         h = {node: -k for node in qpu_sampler.nodelist}
         bqm = dimod.BinaryQuadraticModel.from_ising(h, J)
 
