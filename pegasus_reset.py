@@ -12,7 +12,7 @@ qpu_sampler = DWaveSampler(solver=solver, token=mytoken)
 nval = len(qpu_sampler.edgelist)
 
 #hvals = np.linspace(0,2,20)
-hvals = [0.] #2.0
+hvals = [2.] #2.0
 hmax = 0.65
 
 num_samples = 1000  # to be multiplied by num_reads
@@ -23,30 +23,30 @@ total_schedules = []
 
 #h_schedules.append([[0, 0], [10, 0], [20, 1], [anneal_lenght, 0], [anneal_lenght + 0.5, 0]])
 #total_schedules.append([[0, 1], [10, 1 - hmax], [20, 1 - hmax], [anneal_lenght, 1], [anneal_lenght + 0.5, 1]])
-#h_schedules.append([[0, 0], [10, 0], [20, 1], [30, 1], [30.01, 0]])
-#total_schedules.append([[0, 1], [10, 1 - hmax], [20, 1 - hmax], [30, 1], [30.01, 1]])
-total_schedules.append([[0, 1], [30, 1]])
-h_schedules.append([[0, 0], [30, 0]])
+h_schedules.append([[0, 0], [10, 0], [20, 1], [30, 1], [30.01, 0]])
+total_schedules.append([[0, 1], [10, 1 - hmax], [20, 1 - hmax], [30, 1], [30.01, 1]])
+#total_schedules.append([[0, 1], [30, 1]])
+#h_schedules.append([[0, 0], [30, 0]])
 
 
 
 for n in [nval]:#range(3,19):
 
     explog = {
-        'name': 'new_internal_reset',
+        'name': 'battery_charge',
         'num_samples': num_samples * 10,
         'anneal_lenght': anneal_lenght,
-        'N': n ** 2,
+        'N': n,
         'h': hvals,
         'solver': solver,
-        'h_schedule': [],
-        'schedule': [],
+        'h_schedule': total_schedules,
+        'schedule': h_schedules,
         'initial_states': [],
         'final_states': [],
     }
 
     for k in hvals:
-        J = {link: 0 for link in qpu_sampler.edgelist} #-0.2
+        J = {link: -0.2 for link in qpu_sampler.edgelist} #-0.2
         h = {node: -k for node in qpu_sampler.nodelist}
         bqm = dimod.BinaryQuadraticModel.from_ising(h, J)
 
@@ -56,12 +56,13 @@ for n in [nval]:#range(3,19):
         h_gain_schedule = h_schedules[0]
         for i in range(num_samples):
             #initial_config = 2*np.random.randint(2, size=n) - 1
-            initial_config = np.ones(n)
+            initial_config = - np.ones(n)
             initial_state = {qpu_sampler.properties["qubits"][i]: initial_config[i]
                             for i in range(len(qpu_sampler.properties["qubits"]))}
             samples = qpu_sampler.sample(bqm, initial_state=initial_state,
                                         anneal_schedule=anneal_schedule,
                                         h_gain_schedule=h_gain_schedule,
+                                        answer_mode='raw',
                                         num_reads=10, auto_scale=False)
 
             for s in samples.samples():
