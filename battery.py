@@ -23,7 +23,7 @@ for n in nval:
         h_schedules.append([[0, 0], [lenght / 3, 0], [2 * lenght / 3, 1], [lenght, 1], [lenght + 0.01, 0]])
         total_schedules.append([[0, 1], [lenght / 3, 1 - hmax], [2 * lenght / 3, 1 - hmax], [lenght, 1], [lenght + 0.01, 1]])
 
-        edgelist, nodelist = get_pegasus_subgraph(qpu_sampler, nval)
+        edgelist, nodelist = get_pegasus_subgraph(qpu_sampler, n)
 
         explog = {
             'name': 'battery_charge_T'+str(lenght)+'_N'+str(n),
@@ -62,7 +62,7 @@ for n in nval:
         explog['final_states'] = fin_states
         explog['initial_states'] = init_states
 
-        with open(explog['name']+'.csv', 'wb') as f:
+        with open(explog['name']+'.csv', 'w') as f:
             wr = csv.writer(f)
             wr.writerow(explog['final_states'])
 
