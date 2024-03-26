@@ -2,6 +2,7 @@ import numpy as np
 import pickle
 import dimod
 from dwave.system import DWaveSampler
+from utils import get_pegasus_subgraph
 
 
 #mytoken = 'DEV-2942a9351f40088a2e32f4f1732b5dd8dcffea46' # michele
@@ -9,7 +10,8 @@ mytoken = 'CINE-7a7dd30e6b6196bae3c9c198ee323b7e2ea3f2ed'
 solver = 'Advantage_system6.4'
 
 qpu_sampler = DWaveSampler(solver=solver, token=mytoken)
-nval = len(qpu_sampler.nodelist)
+nval = len(qpu_sampler.nodelist) # 1000
+edgelist, nodelist = get_pegasus_subgraph(qpu_sampler, nval)
 
 #hvals = np.linspace(0,2,20)
 hvals = [2.] #2.0
@@ -46,8 +48,8 @@ for n in [nval]:#range(3,19):
     }
 
     for k in hvals:
-        J = {link: -0.2 for link in qpu_sampler.edgelist} #-0.2
-        h = {node: -k for node in qpu_sampler.nodelist}
+        J = {link: -0.2 for link in edgelist} #-0.2
+        h = {node: -k for node in nodelist}
         bqm = dimod.BinaryQuadraticModel.from_ising(h, J)
 
         init_states = []
@@ -57,8 +59,10 @@ for n in [nval]:#range(3,19):
         for i in range(num_samples):
             #initial_config = 2*np.random.randint(2, size=n) - 1
             initial_config = - np.ones(n)
-            initial_state = {qpu_sampler.properties["qubits"][i]: initial_config[i]
-                            for i in range(len(qpu_sampler.properties["qubits"]))}
+            #initial_state = {qpu_sampler.properties["qubits"][i]: initial_config[i]
+            #                for i in range(len(qpu_sampler.properties["qubits"]))}
+            initial_state = {nodelist[i]: initial_config[i]
+                             for i in range(len(nodelist))}
             samples = qpu_sampler.sample(bqm, initial_state=initial_state,
                                         anneal_schedule=anneal_schedule,
                                         h_gain_schedule=h_gain_schedule,
