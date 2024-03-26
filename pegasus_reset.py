@@ -9,13 +9,13 @@ mytoken = 'CINE-7a7dd30e6b6196bae3c9c198ee323b7e2ea3f2ed'
 solver = 'Advantage_system6.4'
 
 qpu_sampler = DWaveSampler(solver=solver, token=mytoken)
-nval = len(qpu_sampler.edgelist)
+nval = len(qpu_sampler.nodelist)
 
 #hvals = np.linspace(0,2,20)
 hvals = [2.] #2.0
 hmax = 0.65
 
-num_samples = 1000  # to be multiplied by num_reads
+num_samples = 1  # to be multiplied by num_reads
 anneal_lenght = 30.1  # microseconds
 
 h_schedules = []
@@ -33,8 +33,8 @@ total_schedules.append([[0, 1], [10, 1 - hmax], [20, 1 - hmax], [30, 1], [30.01,
 for n in [nval]:#range(3,19):
 
     explog = {
-        'name': 'battery_charge',
-        'num_samples': num_samples * 10,
+        'name': 'battery_charge_T30',
+        'num_samples': num_samples * 1000,
         'anneal_lenght': anneal_lenght,
         'N': n,
         'h': hvals,
@@ -63,7 +63,7 @@ for n in [nval]:#range(3,19):
                                         anneal_schedule=anneal_schedule,
                                         h_gain_schedule=h_gain_schedule,
                                         answer_mode='raw',
-                                        num_reads=10, auto_scale=False)
+                                        num_reads=1000, auto_scale=False)
 
             for s in samples.samples():
                 fin_states.append(np.array(list(s.values())))
