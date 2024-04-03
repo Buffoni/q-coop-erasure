@@ -12,7 +12,7 @@ qpu_sampler = DWaveSampler(solver=solver, token=mytoken)
 nval = [500, 1000, 1500, 2000, 2500, 3000, 3500, 4000, 4500, 5000]
 
 hmax = 0.65
-anneal_lenght = [10,20,30]  # microseconds
+anneal_lenght = [1,2,5]  # microseconds
 
 
 for n in nval:
