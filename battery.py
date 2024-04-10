@@ -3,7 +3,6 @@ import pickle
 import dimod
 from dwave.system import DWaveSampler
 from utils import get_pegasus_subgraph
-import csv
 
 mytoken = 'CINE-7a7dd30e6b6196bae3c9c198ee323b7e2ea3f2ed'
 solver = 'Advantage_system6.4'
@@ -12,7 +11,7 @@ qpu_sampler = DWaveSampler(solver=solver, token=mytoken)
 nval = [500, 1000, 1500, 2000, 2500, 3000, 3500, 4000, 4500, 5000]
 
 hmax = 0.65
-anneal_lenght = [1,2,5]  # microseconds
+anneal_lenght = [1, 5, 10]  # microseconds
 
 
 for n in nval:
@@ -20,18 +19,18 @@ for n in nval:
         h_schedules = []
         total_schedules = []
 
-        h_schedules.append([[0, 0], [lenght / 3, 0], [2 * lenght / 3, 1], [lenght, 1], [lenght + 0.01, 0]])
-        total_schedules.append([[0, 1], [lenght / 3, 1 - hmax], [2 * lenght / 3, 1 - hmax], [lenght, 1], [lenght + 0.01, 1]])
+        h_schedules.append([[0, 0], [lenght / 3, 0], [2 * lenght / 3, 1], [lenght, 0]]) #[lenght, 0], [lenght + 0.01, 0]
+        total_schedules.append([[0, 1], [lenght / 3, 1 - hmax], [2 * lenght / 3, 1 - hmax], [lenght, 1]]) # , [lenght + 0.01, 1]
 
         edgelist, nodelist = get_pegasus_subgraph(qpu_sampler, n)
 
         explog = {
-            'name': 'battery_charge_T'+str(lenght)+'_N'+str(n),
+            'name': 'battery_noquench_nocoop_T'+str(lenght)+'_N'+str(n),
             'num_samples': 1000,
             'anneal_lenght': anneal_lenght,
             'N': n,
             'h': -2.,
-            'J': -0.2,
+            'J': -0, # -0.2
             'solver': solver,
             'h_schedule': total_schedules,
             'schedule': h_schedules,
@@ -39,7 +38,7 @@ for n in nval:
             'final_states': [],
         }
 
-        J = {link: -0.2 for link in edgelist} #-0.2
+        J = {link: -0 for link in edgelist} #-0.2
         h = {node: -2. for node in nodelist}
         bqm = dimod.BinaryQuadraticModel.from_ising(h, J)
 
@@ -61,10 +60,6 @@ for n in nval:
 
         explog['final_states'] = fin_states
         explog['initial_states'] = init_states
-
-        with open(explog['name']+'.csv', 'w') as f:
-            wr = csv.writer(f)
-            wr.writerow(explog['final_states'])
 
         with open(explog['name']+'.pkl', 'wb') as f:
             pickle.dump(explog, f)
