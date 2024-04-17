@@ -8,10 +8,11 @@ mytoken = 'CINE-7a7dd30e6b6196bae3c9c198ee323b7e2ea3f2ed'
 solver = 'Advantage_system6.4'
 
 qpu_sampler = DWaveSampler(solver=solver, token=mytoken)
-nval = [500, 1000, 1500, 2000, 2500, 3000, 3500, 4000, 4500, 5000]
+# nval = [500, 1000, 1500, 2000, 2500, 3000, 3500, 4000, 4500, 5000]
+nval = [1, 5, 10, 50, 100]
 
 hmax = 0.65
-anneal_lenght = [1, 5, 10]  # microseconds
+anneal_lenght = [50]  # microseconds
 
 
 for n in nval:
@@ -29,8 +30,8 @@ for n in nval:
             'num_samples': 1000,
             'anneal_lenght': anneal_lenght,
             'N': n,
-            'h': -2.,
-            'J': -0, # -0.2
+            'h': -1.,
+            'J': -0., # -0.2
             'solver': solver,
             'h_schedule': total_schedules,
             'schedule': h_schedules,
@@ -38,8 +39,8 @@ for n in nval:
             'final_states': [],
         }
 
-        J = {link: -0 for link in edgelist} #-0.2
-        h = {node: -2. for node in nodelist}
+        J = {link: -0. for link in edgelist} #-0.2
+        h = {node: -1. for node in nodelist}
         bqm = dimod.BinaryQuadraticModel.from_ising(h, J)
 
         init_states = []
