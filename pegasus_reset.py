@@ -11,7 +11,7 @@ solver = 'Advantage_system6.4'
 
 qpu_sampler = DWaveSampler(solver=solver, token=mytoken)
 #nval = len(qpu_sampler.nodelist) # 1000
-nvals = [1,5,10,50,100,500,1000,5000]
+nvals = [2,4,6,8,10,12,14,16]
 
 #hvals = np.linspace(0,2,20)
 hvals = [2.] #2.0
@@ -39,7 +39,7 @@ for n in nvals:#range(3,19):
         'name': 'new_pegasus_'+str(n),
         'num_samples': num_samples * 100,
         'anneal_lenght': anneal_lenght,
-        'N': n,
+        'N': len(nodelist),
         'h': hvals,
         'solver': solver,
         'h_schedule': total_schedules,
@@ -58,7 +58,7 @@ for n in nvals:#range(3,19):
         anneal_schedule = total_schedules[0]
         h_gain_schedule = h_schedules[0]
         for i in range(num_samples):
-            initial_config = 2*np.random.randint(2, size=n) - 1
+            initial_config = 2*np.random.randint(2, size=len(nodelist)) - 1
             #initial_config = - np.ones(n)
             #initial_state = {qpu_sampler.properties["qubits"][i]: initial_config[i]
             #                for i in range(len(qpu_sampler.properties["qubits"]))}
