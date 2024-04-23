@@ -36,7 +36,7 @@ for n in nvals:#range(3,19):
     edgelist, nodelist = get_pegasus_subgraph(qpu_sampler, n)
 
     explog = {
-        'name': 'new_pegasus_'+str(n),
+        'name': 'new_pegasus_nocoop'+str(n),
         'num_samples': num_samples * 100,
         'anneal_lenght': anneal_lenght,
         'N': len(nodelist),
@@ -49,7 +49,7 @@ for n in nvals:#range(3,19):
     }
 
     for k in hvals:
-        J = {link: -0.2 for link in edgelist} #-0.2
+        J = {link: -0. for link in edgelist} #-0.2
         h = {node: -k for node in nodelist}
         bqm = dimod.BinaryQuadraticModel.from_ising(h, J)
 
