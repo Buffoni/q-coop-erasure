@@ -26,16 +26,16 @@ if __name__ == '__main__':
     mytoken = 'CINE-7a7dd30e6b6196bae3c9c198ee323b7e2ea3f2ed'
     solver = 'Advantage_system6.4'
     qpu_sampler = DWaveSampler(solver=solver, token=mytoken)
-    nvals = [1, 5, 10, 50, 100, 500, 1000, 1500, 2000, 2500, 3000, 3500, 4000, 4500, 5000]
-    num_edges = []
-    for n in nvals:
-        edgelist, nodelist = get_pegasus_old(qpu_sampler, n)
-        num_edges.append(len(edgelist))
-    print(nvals)
-    print(num_edges)
-    #n = 3
-    #edgelist, nodelist = get_pegasus_subgraph(qpu_sampler, n)
+    #nvals = [1, 5, 10, 50, 100, 500, 1000, 1500, 2000, 2500, 3000, 3500, 4000, 4500, 5000]
+    #num_edges = []
+    #for n in nvals:
+    #    edgelist, nodelist = get_pegasus_old(qpu_sampler, n)
+    #    num_edges.append(len(edgelist))
+    #print(nvals)
+    #print(num_edges)
+    n = 16
+    edgelist, nodelist = get_pegasus_subgraph(qpu_sampler, n)
     #edgelist, nodelist = get_pegasus_old(qpu_sampler, n)
-    #print(len(nodelist))
+    print(len(nodelist))
     #print(len(edgelist))
     #print(len(edgelist)/len(nodelist))
