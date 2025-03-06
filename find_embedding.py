@@ -5,7 +5,7 @@ from dwave.system.samplers import DWaveSampler
 from minorminer import find_embedding
 
 
-mytoken = 'CINE-7a7dd30e6b6196bae3c9c198ee323b7e2ea3f2ed'
+mytoken = '<YOUR TOKEN>' 
 
 N = 16
 solver = 'Advantage_system6.1'
