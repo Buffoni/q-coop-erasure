@@ -12,7 +12,7 @@ from dwave.system.composites import EmbeddingComposite, FixedEmbeddingComposite
 from minorminer import find_embedding
 
 
-mytoken = 'CINE-7a7dd30e6b6196bae3c9c198ee323b7e2ea3f2ed'
+mytoken = '<YOUR TOKEN>' 
 solver = 'Advantage_system6.2'
 
 qpu_sampler = DWaveSampler(solver=solver, token=mytoken)
