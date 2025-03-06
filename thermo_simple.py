@@ -3,7 +3,7 @@ import pickle
 import dimod
 from dwave.system.samplers import DWaveSampler
 
-mytoken = 'insert your token here'
+mytoken = '<YOUR TOKEN>' 
 solver = 'Advantage_system6.1'
 
 qpu_sampler = DWaveSampler(solver=solver, token=mytoken)
