@@ -5,8 +5,7 @@ from dwave.system import DWaveSampler
 from utils import get_pegasus_subgraph
 
 
-#mytoken = 'DEV-2942a9351f40088a2e32f4f1732b5dd8dcffea46' # michele
-mytoken = 'CINE-7a7dd30e6b6196bae3c9c198ee323b7e2ea3f2ed'
+mytoken = '<YOUR TOKEN>' 
 solver = 'Advantage_system6.4'
 
 qpu_sampler = DWaveSampler(solver=solver, token=mytoken)
