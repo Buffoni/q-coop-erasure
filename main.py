@@ -13,8 +13,8 @@ from dwave.system.composites import EmbeddingComposite, FixedEmbeddingComposite
 from minorminer import find_embedding
 
 
-mytoken = 'CINE-7a7dd30e6b6196bae3c9c198ee323b7e2ea3f2ed'
-solver = 'Advantage_system6.1'
+mytoken = '<YOUR TOKEN>' 
+solver = 'Advantage_system6.4'
 
 N = 14
 with open('embedding'+str(N)+'.pkl', 'rb') as f:
