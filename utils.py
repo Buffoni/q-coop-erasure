@@ -23,7 +23,7 @@ def get_pegasus_old(sampler, n):
 
 
 if __name__ == '__main__':
-    mytoken = 'CINE-7a7dd30e6b6196bae3c9c198ee323b7e2ea3f2ed'
+    mytoken = '<YOUR TOKEN>' 
     solver = 'Advantage_system6.4'
     qpu_sampler = DWaveSampler(solver=solver, token=mytoken)
     #nvals = [1, 5, 10, 50, 100, 500, 1000, 1500, 2000, 2500, 3000, 3500, 4000, 4500, 5000]
